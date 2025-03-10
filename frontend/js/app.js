@@ -10,6 +10,16 @@ loginForm?.addEventListener("submit", async (e) => {
   const email = document.getElementById("loginEmail").value;
   const password = document.getElementById("loginPassword").value;
 
+  if (!email || !password) {
+    alert("Please fill in both email and password.");
+    return;
+  }
+
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
   const res = await fetch(`${API_BASE_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
