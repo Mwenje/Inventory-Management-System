@@ -8,6 +8,20 @@
       rel="stylesheet"
     />
     <title>Inventory Management</title>
+
+    <style>
+      body,
+      html {
+        height: 100%;
+      }
+      .bg-lt {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
   </head>
   <body>
     <div class="bg-lt">
@@ -39,10 +53,12 @@
 
           <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
+
+        <a href="#" id="showRegisterLink">Register</a>
       </div>
 
       <!-- Register Form -->
-      <div id="registerSection" class="card p-4 mt-4">
+      <div id="registerSection" class="card p-4 mt-4 d-none">
         <h3>Register</h3>
         <form id="registerForm">
           <div class="mb-3">
@@ -80,6 +96,9 @@
           </div>
           <button type="submit" class="btn btn-success w-100">Register</button>
         </form>
+
+        <!-- Back to Login Link -->
+        <a href="#" id="backToLoginLink">Back to Login</a>
       </div>
 
       <!-- Dashboard -->
@@ -161,9 +180,30 @@
           if (Date.now() >= expiry) {
             localStorage.removeItem("token");
             alert("Session expired. Please log in again.");
-            window.location.reload();
+            // window.location.reload();
+
+            document.getElementById("dashboard").classList.add("d-none");
+            document.getElementById("loginSection").classList.remove("d-none");
           }
         }
+      });
+
+      // Toggle Register form visibility and hide Login form
+      const regSection = document.getElementById("registerSection");
+      const loginSection = document.getElementById("loginSection");
+      const showRegisterLink = document.getElementById("showRegisterLink");
+      const backToLoginLink = document.getElementById("backToLoginLink");
+
+      showRegisterLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        loginSection.classList.add("d-none");
+        registerSection.classList.remove("d-none");
+      });
+
+      backToLoginLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        loginSection.classList.remove("d-none");
+        registerSection.classList.add("d-none");
       });
     </script>
 
