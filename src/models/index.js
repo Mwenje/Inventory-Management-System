@@ -5,8 +5,8 @@ const Supplier = require("./supplier");
 const Order = require("./order");
 
 //build relationships
-Category.hasMany(Product);
-Product.belongsTo(Category);
+Category.hasMany(Product, { foreignKey: "categoryId" });
+Product.belongsTo(Category, { foreignKey: "categoryId" });
 
 Supplier.hasMany(Product, { foreignKey: "supplierId" });
 Product.belongsTo(Supplier, { foreignKey: "supplierId" });
