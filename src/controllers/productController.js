@@ -1,4 +1,4 @@
-const { Product, Supplier } = require("../models");
+const { Product, Supplier, Category } = require("../models");
 const { Op } = require("sequelize");
 const { body, validationResult } = require("express-validator");
 const { ResultWithContextImpl } = require("express-validator/lib/chain");
@@ -20,7 +20,16 @@ exports.getAllProducts = async (req, res) => {
     const products = await Product.findAll({
       limit: parsedLimit,
       offset: offset,
-      include: Supplier,
+      include: [
+        {
+          model: Supplier,
+          as: "supplier", // Use the alias if defined
+        },
+        {
+          model: Category,
+          as: "category", // Use the alias if defined
+        },
+      ],
     });
 
     // Get total count of products
@@ -66,9 +75,17 @@ exports.createProduct = [
     }
 
     try {
-      const { name, description, price, stock } = req.body;
+      const { name, description, price, stock, categoryId, supplierId } =
+        req.body;
 
-      const product = await Product.create({ name, description, price, stock });
+      const product = await Product.create({
+        name,
+        description,
+        price,
+        stock,
+        categoryId,
+        supplierId,
+      });
 
       res.status(201).json({
         success: true,

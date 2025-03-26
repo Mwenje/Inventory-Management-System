@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const sequelize = require("./config/database.js");
 const productRoutes = require("./routes/productRoutes.js");
 const supplierRoutes = require("./routes/supplierRoutes.js");
+const categoryRoutes = require("./routes/categoryRoutes.js");
 
 // Middleware
 dotenv.config(); // Load environment variables
@@ -14,6 +15,7 @@ const PORT = process.env.PORT || 8080;
 // Routes
 app.use("/api/products", productRoutes);
 app.use("/api/suppliers", supplierRoutes);
+app.use("/api/categories", categoryRoutes);
 
 // Sync database and start server
 sequelize

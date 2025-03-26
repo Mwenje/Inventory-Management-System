@@ -29,12 +29,14 @@ exports.createSupplier = [
       const { name, contact, email } = req.body;
       const supplier = await Supplier.create({ name, contact, email });
 
-      res
-        .status(201)
-        .json({ message: "Supplier created successfully", supplier });
+      return res.status(201).json({
+        success: false,
+        message: "Supplier created successfully",
+        supplier,
+      });
     } catch (error) {
       console.error("Error creating supplier:", error);
-      res.status(500).json({ success: true, error: "Internal Server Error" });
+      res.status(500).json({ success: false, error: "Internal Server Error" });
     }
   },
 ];
@@ -52,7 +54,7 @@ exports.getSuppliers = async (req, res) => {
 
     const totalSuppliers = await Supplier.count();
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Suppliers retrieved successfully",
       data: suppliers,
@@ -65,7 +67,7 @@ exports.getSuppliers = async (req, res) => {
     });
   } catch (error) {
     console.error("Error retrieving suppliers:", error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: "Internal Server Error",
     });
@@ -102,14 +104,14 @@ exports.updateSupplier = [
 
       await supplier.save();
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Supplier updated successfully",
         supplier,
       });
     } catch (error) {
       console.error("Error updating supplier:", error);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: "Internal Server Error",
       });
@@ -132,7 +134,7 @@ exports.deleteSupplier = async (req, res) => {
 
     await supplier.destroy();
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Supplier deleted successfully",
       deletedSupplier: {
@@ -144,7 +146,7 @@ exports.deleteSupplier = async (req, res) => {
     });
   } catch (error) {
     console.error("Error deleting supplier:", error); // Log the error internally
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: "Internal Server Error",
     });
